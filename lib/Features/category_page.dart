@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
+import 'category_detail_page/category_detail_page.dart';
+
 class CategoryPage extends StatefulWidget {
   const CategoryPage({Key? key}) : super(key: key);
 
@@ -68,41 +70,50 @@ class _CategoryPageState extends State<CategoryPage> {
                   ),
                 ),
                 SizedBox(height: 2.h),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Container(
-                    height: 10.h,
-                    color: Colors.blueGrey[50],
-                    child: Row(
-                      children: <Widget>[
-                        Container(
-                          color: Colors.red,
-                          width: 70,
-                          height: 70,
-                          child: Icon(Icons.travel_explore_rounded,
-                              color: Colors.white),
-                        ),
-                        SizedBox(width: 2.w),
-                        Expanded(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'YDS Kelimeleri',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 14.sp),
-                              ),
-                              Text('2000 kelime',
-                                  style: TextStyle(
-                                      color: Colors.grey, fontSize: 12.sp))
-                            ],
+                InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => CategoryDetailPage()),
+                    );
+                  },
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Container(
+                      height: 10.h,
+                      color: Colors.blueGrey[50],
+                      child: Row(
+                        children: <Widget>[
+                          Container(
+                            color: Colors.red,
+                            width: 20.w,
+                            height: 40.h,
+                            child: Icon(Icons.travel_explore_rounded,
+                                color: Colors.white),
                           ),
-                        ),
-                        Icon(Icons.arrow_forward_ios_sharp,
-                            color: Colors.black),
-                      ],
+                          SizedBox(width: 2.w),
+                          Expanded(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'YDS Kelimeleri',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14.sp),
+                                ),
+                                Text('2000 kelime',
+                                    style: TextStyle(
+                                        color: Colors.grey, fontSize: 12.sp))
+                              ],
+                            ),
+                          ),
+                          Icon(Icons.arrow_forward_ios_sharp,
+                              color: Colors.black),
+                        ],
+                      ),
                     ),
                   ),
                 )

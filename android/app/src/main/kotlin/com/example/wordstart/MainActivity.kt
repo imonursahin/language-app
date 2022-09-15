@@ -1,4 +1,4 @@
-package com.example.wordstart
+package com.gignox.wordstart
 
 import io.flutter.embedding.android.FlutterActivity
 
