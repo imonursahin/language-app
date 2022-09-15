@@ -18,14 +18,14 @@ class _HomeScreenState extends State<HomeScreen> {
         appBar: AppBar(
           title: RichText(
               text: TextSpan(
-                  text: "🥧 Words",
+                  text: "🥧 wordS",
                   style: TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.w600,
                       fontSize: 15.sp),
                   children: <TextSpan>[
                 TextSpan(
-                  text: "Tart",
+                  text: "tart",
                   style: TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.w300,
@@ -54,12 +54,12 @@ class _HomeScreenState extends State<HomeScreen> {
                             color: Colors.black,
                             fontWeight: FontWeight.w600,
                             fontSize: 20.sp)),
-                    SizedBox(height: 3.h),
+                    SizedBox(height: 1.h),
                     SizedBox(
                         width: 300.w,
-                        child: Image.asset('assets/images/homepic.png')),
-                    SizedBox(height: 2.h),
-                    Text("Herkes için ingilizce öğrenmenin \nen kolay yolu",
+                        child: Image.asset('assets/images/homepic3.png')),
+                    SizedBox(height: 4.h),
+                    Text("Herkes için ingilizce öğrenmenin \nen kolay yolu ",
                         style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.w200,

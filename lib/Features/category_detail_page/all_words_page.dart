@@ -42,7 +42,7 @@ class _AllWordsPageState extends State<AllWordsPage> {
                             Row(
                               children: [
                                 Text(
-                                  "TR: ",
+                                  "🇹🇷 ",
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 14.sp),
@@ -57,7 +57,7 @@ class _AllWordsPageState extends State<AllWordsPage> {
                             Row(
                               children: [
                                 Text(
-                                  "EN: ",
+                                  "🇬🇧 ",
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 14.sp),
@@ -72,7 +72,7 @@ class _AllWordsPageState extends State<AllWordsPage> {
                             Row(
                               children: [
                                 Text(
-                                  "TELAFUZ: ",
+                                  "🗣️ ",
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 14.sp),

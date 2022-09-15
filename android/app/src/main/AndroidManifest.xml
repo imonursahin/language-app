@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.gignox.wordstart">
    <application
-        android:label="wordstart"
+        android:label="wordStart"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

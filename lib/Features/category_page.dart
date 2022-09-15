@@ -61,7 +61,7 @@ class _CategoryPageState extends State<CategoryPage> {
                       Icons.search,
                       color: Colors.black45,
                     ),
-                    hintText: "Kelime Ara",
+                    hintText: "İngilizce veya Türkçe Kelime Ara", 
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15.0),
                         borderSide: BorderSide.none),
