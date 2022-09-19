@@ -65,8 +65,6 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-      - assets/images/homepic.png
-      - assets/images/homepic2.png
       - assets/images/homepic3.png
       # Database
       - assets/database/database.db

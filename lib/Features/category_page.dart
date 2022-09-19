@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:wordstart/Model/category_model.dart';
-import 'package:wordstart/Services/db_dao.dart';
+import 'package:wordstart/Services/category_service.dart';
 import 'category_detail_page/category_detail_page.dart';
 import 'dart:math' as math;
 
@@ -18,7 +18,7 @@ class _CategoryPageState extends State<CategoryPage> {
   TextEditingController searchController = TextEditingController();
 
   Future<List<CategoryModel>> showCategory() async {
-    var categoryList = await DbDao().getAllCategory();
+    var categoryList = await CategoryService().getAllCategory();
     return categoryList;
   }
 
@@ -140,7 +140,8 @@ class _CategoryPageState extends State<CategoryPage> {
                                                       CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
-                                                      category.categoryName,
+                                                      category.categoryName
+                                                          .toString(),
                                                       style: TextStyle(
                                                           fontWeight:
                                                               FontWeight.bold,
