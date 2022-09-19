@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:wordstart/Model/category_model.dart';
 
 import 'all_words_page.dart';
 
 class CategoryDetailPage extends StatefulWidget {
-  const CategoryDetailPage({super.key});
+  const CategoryDetailPage({super.key, required CategoryModel category});
 
   @override
   State<CategoryDetailPage> createState() => _CategoryDetailPageState();

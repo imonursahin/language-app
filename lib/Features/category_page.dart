@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
-
+import 'package:wordstart/Model/category_model.dart';
+import 'package:wordstart/Services/db_dao.dart';
 import 'category_detail_page/category_detail_page.dart';
+import 'dart:math' as math;
 
 class CategoryPage extends StatefulWidget {
   const CategoryPage({Key? key}) : super(key: key);
@@ -11,6 +13,15 @@ class CategoryPage extends StatefulWidget {
 }
 
 class _CategoryPageState extends State<CategoryPage> {
+  bool isSearch = false;
+  String searchWord = "";
+  TextEditingController searchController = TextEditingController();
+
+  Future<List<CategoryModel>> showCategory() async {
+    var categoryList = await DbDao().getAllCategory();
+    return categoryList;
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -46,7 +57,7 @@ class _CategoryPageState extends State<CategoryPage> {
                 Container(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Bugün ne \nöğrenmek istiyorsun",
+                    "Bugün ne \nöğrenmek istiyorsun 🤔",
                     style: TextStyle(
                         fontSize: 20.sp,
                         color: Colors.black,
@@ -55,13 +66,14 @@ class _CategoryPageState extends State<CategoryPage> {
                 ),
                 SizedBox(height: 2.h),
                 TextField(
+                  controller: searchController,
                   cursorColor: Colors.blueGrey[50],
                   decoration: InputDecoration(
                     prefixIcon: Icon(
                       Icons.search,
                       color: Colors.black45,
                     ),
-                    hintText: "İngilizce veya Türkçe Kelime Ara", 
+                    hintText: "İngilizce veya Türkçe Kelime Ara",
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15.0),
                         borderSide: BorderSide.none),
@@ -70,53 +82,86 @@ class _CategoryPageState extends State<CategoryPage> {
                   ),
                 ),
                 SizedBox(height: 2.h),
-                InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => CategoryDetailPage()),
-                    );
-                  },
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Container(
-                      height: 10.h,
-                      color: Colors.blueGrey[50],
-                      child: Row(
-                        children: <Widget>[
-                          Container(
-                            color: Colors.red,
-                            width: 20.w,
-                            height: 40.h,
-                            child: Icon(Icons.travel_explore_rounded,
-                                color: Colors.white),
-                          ),
-                          SizedBox(width: 2.w),
-                          Expanded(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'YDS Kelimeleri',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14.sp),
-                                ),
-                                Text('2000 kelime',
-                                    style: TextStyle(
-                                        color: Colors.grey, fontSize: 12.sp))
-                              ],
-                            ),
-                          ),
-                          Icon(Icons.arrow_forward_ios_sharp,
-                              color: Colors.black),
-                        ],
-                      ),
-                    ),
-                  ),
-                )
+                FutureBuilder<List<CategoryModel>>(
+                    future: showCategory(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        var categoryList = snapshot.data;
+                        return ListView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            primary: false,
+                            itemCount: categoryList!.length,
+                            itemBuilder: (context, index) {
+                              var category = categoryList[index];
+                              return Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                CategoryDetailPage(
+                                                    category: category)),
+                                      );
+                                    },
+                                    child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(10),
+                                        child: Container(
+                                            height: 10.h,
+                                            color: Colors.blueGrey[50],
+                                            child: Row(children: <Widget>[
+                                              Container(
+                                                color: Color((math.Random()
+                                                                .nextDouble() *
+                                                            0xFFFFFF)
+                                                        .toInt())
+                                                    .withOpacity(1.0),
+                                                width: 20.w,
+                                                height: 40.h,
+                                                child: Center(
+                                                  child: Text(
+                                                    '#${index + 1}',
+                                                    style: TextStyle(
+                                                        fontSize: 18.sp,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: Colors.white),
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(width: 2.w),
+                                              Expanded(
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      category.categoryName,
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 14.sp),
+                                                    ),
+                                                    Text('2000 kelime',
+                                                        style: TextStyle(
+                                                            color: Colors.grey,
+                                                            fontSize: 12.sp))
+                                                  ],
+                                                ),
+                                              ),
+                                              Icon(
+                                                  Icons.arrow_forward_ios_sharp,
+                                                  color: Colors.black)
+                                            ])))),
+                              );
+                            });
+                      }
+                      return Center(child: CircularProgressIndicator());
+                    })
               ],
             )),
           )),

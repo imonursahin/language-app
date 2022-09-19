@@ -37,7 +37,9 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
   sizer: ^2.0.15
-  vertical_card_pager: ^1.5.0
+  sqflite:
+  path:
+
 
 dev_dependencies:
   flutter_test:
@@ -66,7 +68,8 @@ flutter:
       - assets/images/homepic.png
       - assets/images/homepic2.png
       - assets/images/homepic3.png
-  #   - images/a_dot_ham.jpeg
+      # Database
+      - assets/database/database.db
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
