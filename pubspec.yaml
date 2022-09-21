@@ -39,6 +39,9 @@ dependencies:
   sizer: ^2.0.15
   sqflite:
   path:
+  flutter_tts: ^3.5.3
+  shared_preferences: ^2.0.15
+  share_plus: ^4.4.0
 
 
 dev_dependencies:

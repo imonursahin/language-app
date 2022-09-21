@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
+import '../Widgets/alert_box.dart';
 import 'category_page.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -35,6 +36,17 @@ class _HomeScreenState extends State<HomeScreen> {
           centerTitle: true,
           backgroundColor: Colors.transparent,
           elevation: 0,
+          actions: [
+            IconButton(
+              onPressed: () {
+                buildAlertInfo(context);
+              },
+              icon: Icon(
+                Icons.info_outline,
+                color: Colors.black,
+              ),
+            ),
+          ],
         ),
         body: SingleChildScrollView(
           child: Padding(

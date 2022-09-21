@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
-class AllWordsPage extends StatefulWidget {
-  const AllWordsPage({super.key});
+class FavoritePage extends StatefulWidget {
+  const FavoritePage({super.key});
 
   @override
-  State<AllWordsPage> createState() => _AllWordsPageState();
+  State<FavoritePage> createState() => _FavoritePageState();
 }
 
-class _AllWordsPageState extends State<AllWordsPage> {
+class _FavoritePageState extends State<FavoritePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: ListView.builder(
-          itemCount: 15,
+          itemCount: 1,
           shrinkWrap: true,
           itemBuilder: (BuildContext context, int index) {
             return Padding(

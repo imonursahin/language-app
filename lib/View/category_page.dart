@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:wordstart/Model/category_model.dart';
-import 'package:wordstart/Services/category_service.dart';
-import 'category_detail_page/category_detail_page.dart';
+import '../VİewModel/category_page_viewmodel.dart';
+import 'category_words_page.dart';
 import 'dart:math' as math;
 
 class CategoryPage extends StatefulWidget {
@@ -13,14 +13,9 @@ class CategoryPage extends StatefulWidget {
 }
 
 class _CategoryPageState extends State<CategoryPage> {
-  bool isSearch = false;
-  String searchWord = "";
+  bool isSearching = false;
+  String searchString = "";
   TextEditingController searchController = TextEditingController();
-
-  Future<List<CategoryModel>> showCategory() async {
-    var categoryList = await CategoryService().getAllCategory();
-    return categoryList;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +52,7 @@ class _CategoryPageState extends State<CategoryPage> {
                 Container(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    "Bugün ne \nöğrenmek istiyorsun 🤔",
+                    "Bugün ne \nöğrenmek istiyorsun? 🤔",
                     style: TextStyle(
                         fontSize: 20.sp,
                         color: Colors.black,
@@ -73,6 +68,12 @@ class _CategoryPageState extends State<CategoryPage> {
                       Icons.search,
                       color: Colors.black45,
                     ),
+                    suffixIcon: IconButton(
+                      icon: const Icon(Icons.clear),
+                      onPressed: () {
+                        searchController.clear();
+                      },
+                    ),
                     hintText: "İngilizce veya Türkçe Kelime Ara",
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(15.0),
@@ -80,6 +81,12 @@ class _CategoryPageState extends State<CategoryPage> {
                     fillColor: Color.fromARGB(255, 235, 235, 240),
                     filled: true,
                   ),
+                  onChanged: (aramaSonucu) {
+                    print("Arama sonucu : $aramaSonucu");
+                    setState(() {
+                      searchString = aramaSonucu;
+                    });
+                  },
                 ),
                 SizedBox(height: 2.h),
                 FutureBuilder<List<CategoryModel>>(
@@ -102,7 +109,7 @@ class _CategoryPageState extends State<CategoryPage> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                CategoryDetailPage(
+                                                CategoryWordsPage(
                                                     category: category)),
                                       );
                                     },
@@ -147,7 +154,8 @@ class _CategoryPageState extends State<CategoryPage> {
                                                               FontWeight.bold,
                                                           fontSize: 14.sp),
                                                     ),
-                                                    Text('2000 kelime',
+                                                    // category list count
+                                                    Text("",
                                                         style: TextStyle(
                                                             color: Colors.grey,
                                                             fontSize: 12.sp))

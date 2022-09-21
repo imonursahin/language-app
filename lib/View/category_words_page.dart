@@ -2,24 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:wordstart/Model/category_model.dart';
 import 'package:wordstart/Model/words_model.dart';
-import 'package:wordstart/Services/category_words_service.dart';
 
-import 'all_words_page.dart';
+import '../VİewModel/category_words_viewmodel.dart';
+import 'favorite_page/favorite_page.dart';
 
-class CategoryDetailPage extends StatefulWidget {
+class CategoryWordsPage extends StatefulWidget {
   final CategoryModel category;
 
-  CategoryDetailPage({Key? key, required this.category}) : super(key: key);
+  const CategoryWordsPage({Key? key, required this.category}) : super(key: key);
 
   @override
-  State<CategoryDetailPage> createState() => _CategoryDetailPageState();
+  State<CategoryWordsPage> createState() => _CategoryWordsPageState();
 }
 
-class _CategoryDetailPageState extends State<CategoryDetailPage> {
-  Future<List<WordsModel>> showWords(int categoryId) async {
-    var wordsList = await CategoryWordsService().getCategoryWords(categoryId);
-    return wordsList;
-  }
+class _CategoryWordsPageState extends State<CategoryWordsPage> {
+  // favorite
+  List<WordsModel> favoriteWordsList = [];
+  bool isFavorite = false;
+
+  Speech speechService = Speech();
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +30,7 @@ class _CategoryDetailPageState extends State<CategoryDetailPage> {
           child: Scaffold(
             appBar: AppBar(
               backgroundColor: Colors.black,
-              title: Text(widget.category.categoryName!),
+              title: Text(widget.category.categoryName ?? ""),
               centerTitle: true,
               elevation: 1,
               bottom: TabBar(
@@ -63,8 +64,8 @@ class _CategoryDetailPageState extends State<CategoryDetailPage> {
                       var wordsList = snapshot.data;
                       return ListView.builder(
                           itemCount: wordsList!.length,
-                          itemBuilder: (context, indeks) {
-                            var words = wordsList[indeks];
+                          itemBuilder: (context, index) {
+                            var words = wordsList[index];
                             return Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: ClipRRect(
@@ -79,7 +80,10 @@ class _CategoryDetailPageState extends State<CategoryDetailPage> {
                                         width: 20.w,
                                         height: 40.h,
                                         child: IconButton(
-                                            onPressed: () {},
+                                            onPressed: () {
+                                              speechService
+                                                  .speak(words.english!);
+                                            },
                                             icon: Icon(Icons.volume_up,
                                                 color: Colors.white)),
                                       ),
@@ -145,7 +149,7 @@ class _CategoryDetailPageState extends State<CategoryDetailPage> {
                                         ),
                                       ),
                                       IconButton(
-                                          icon: "isFavorite" == true
+                                          icon: isFavorite == true
                                               ? Icon(
                                                   Icons.favorite,
                                                   size: 18,
@@ -156,7 +160,14 @@ class _CategoryDetailPageState extends State<CategoryDetailPage> {
                                                   size: 18,
                                                 ),
                                           color: Colors.red,
-                                          onPressed: () async {})
+                                          onPressed: () {
+                                            setState(() {
+                                              isFavorite = !isFavorite;
+                                              if (isFavorite == true) {
+                                                favoriteWordsList.add(words);
+                                              }
+                                            });
+                                          })
                                     ],
                                   ),
                                 ),
@@ -167,7 +178,7 @@ class _CategoryDetailPageState extends State<CategoryDetailPage> {
                       return Center(child: CircularProgressIndicator());
                     }
                   }),
-              AllWordsPage(),
+              FavoritePage(),
             ]),
           ),
         ));
