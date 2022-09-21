@@ -82,7 +82,6 @@ class _CategoryPageState extends State<CategoryPage> {
                     filled: true,
                   ),
                   onChanged: (aramaSonucu) {
-                    print("Arama sonucu : $aramaSonucu");
                     setState(() {
                       searchString = aramaSonucu;
                     });

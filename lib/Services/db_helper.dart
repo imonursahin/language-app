@@ -11,7 +11,6 @@ class DbHelper {
     String dbPath = join(await getDatabasesPath(), dbName);
 
     if (await databaseExists(dbPath)) {
-      print("db is exist");
     } else {
       ByteData data = await rootBundle.load("assets/database/$dbName");
       List<int> bytes =

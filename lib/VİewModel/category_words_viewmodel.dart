@@ -11,18 +11,9 @@ class Speech {
   final FlutterTts tts = FlutterTts();
 
   speak(String text) async {
-    await tts.setLanguage("tr-TR");
+    await tts.setLanguage("en-US");
     await tts.setPitch(1);
-    await tts.setSpeechRate(0.8);
+    await tts.setSpeechRate(0.3);
     await tts.speak(text);
   }
-}
-
-final FlutterTts tts = FlutterTts();
-
-Future _speak(String text) async {
-  await tts.setLanguage("en-Us");
-  await tts.setPitch(1);
-  await tts.setSpeechRate(0.3);
-  await tts.speak(text);
 }

@@ -41,7 +41,7 @@ class _CategoryWordsPageState extends State<CategoryWordsPage> {
                           topLeft: Radius.circular(20),
                           topRight: Radius.circular(20)),
                       color: Colors.white),
-                  tabs: [
+                  tabs: const [
                     Tab(
                       child: Align(
                         alignment: Alignment.center,
