@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:wordstart/Model/category_model.dart';
 import 'package:wordstart/Model/words_model.dart';
-
 import '../VİewModel/category_words_viewmodel.dart';
-import 'favorite_page/favorite_page.dart';
 
 class CategoryWordsPage extends StatefulWidget {
   final CategoryModel category;
@@ -25,38 +23,39 @@ class _CategoryWordsPageState extends State<CategoryWordsPage> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-        length: 2,
-        child: SafeArea(
-          child: Scaffold(
-            appBar: AppBar(
-              backgroundColor: Colors.black,
-              title: Text(widget.category.categoryName ?? ""),
-              centerTitle: true,
-              elevation: 1,
-              bottom: TabBar(
-                  labelColor: Colors.black,
-                  unselectedLabelColor: Colors.white,
-                  indicator: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(20),
-                          topRight: Radius.circular(20)),
-                      color: Colors.white),
-                  tabs: const [
-                    Tab(
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: Text("📋 Tüm Kelimeler"),
-                      ),
+      length: 2,
+      child: SafeArea(
+        child: Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.black,
+            title: Text(widget.category.categoryName ?? ""),
+            centerTitle: true,
+            elevation: 1,
+            bottom: TabBar(
+                labelColor: Colors.black,
+                unselectedLabelColor: Colors.white,
+                indicator: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(20),
+                        topRight: Radius.circular(20)),
+                    color: Colors.white),
+                tabs: const [
+                  Tab(
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Text("📋 Tüm Kelimeler"),
                     ),
-                    Tab(
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: Text("💪 Öğrendiklerim"),
-                      ),
+                  ),
+                  Tab(
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Text("💪 Öğrendiklerim"),
                     ),
-                  ]),
-            ),
-            body: TabBarView(children: [
+                  ),
+                ]),
+          ),
+          body: TabBarView(
+            children: [
               FutureBuilder<List<WordsModel>>(
                   future: showWords(widget.category.categoryId!),
                   builder: (context, snapshot) {
@@ -71,7 +70,7 @@ class _CategoryWordsPageState extends State<CategoryWordsPage> {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
                                 child: Container(
-                                  height: 15.h,
+                                  height: 12.h,
                                   color: Colors.blueGrey[50],
                                   child: Row(
                                     children: <Widget>[
@@ -105,7 +104,7 @@ class _CategoryWordsPageState extends State<CategoryWordsPage> {
                                                       fontSize: 14.sp),
                                                 ),
                                                 Text(
-                                                  words.turkish!,
+                                                  words.turkish ?? "",
                                                   style: TextStyle(
                                                       fontSize: 14.sp),
                                                 ),
@@ -122,24 +121,7 @@ class _CategoryWordsPageState extends State<CategoryWordsPage> {
                                                       fontSize: 14.sp),
                                                 ),
                                                 Text(
-                                                  words.english!,
-                                                  style: TextStyle(
-                                                      fontSize: 14.sp),
-                                                ),
-                                              ],
-                                            ),
-                                            Divider(),
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  "🗣️ ",
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 14.sp),
-                                                ),
-                                                Text(
-                                                  words.pronunciation!,
+                                                  words.english ?? "",
                                                   style: TextStyle(
                                                       fontSize: 14.sp),
                                                 ),
@@ -164,7 +146,8 @@ class _CategoryWordsPageState extends State<CategoryWordsPage> {
                                             setState(() {
                                               isFavorite = !isFavorite;
                                               if (isFavorite == true) {
-                                                favoriteWordsList.add(words);
+                                                favoriteWordsList
+                                                    .add(wordsList[index]);
                                               }
                                             });
                                           })
@@ -178,9 +161,94 @@ class _CategoryWordsPageState extends State<CategoryWordsPage> {
                       return Center(child: CircularProgressIndicator());
                     }
                   }),
-              FavoritePage(),
-            ]),
+              // favorite
+              ListView.builder(
+                  itemCount: favoriteWordsList.length,
+                  shrinkWrap: true,
+                  itemBuilder: (BuildContext context, int index) {
+                    var words = favoriteWordsList[index];
+                    return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: Container(
+                                height: 12.h,
+                                color: Colors.blueGrey[50],
+                                child: Row(children: <Widget>[
+                                  Container(
+                                    color: Colors.black,
+                                    width: 20.w,
+                                    height: 40.h,
+                                    child: IconButton(
+                                        onPressed: () {},
+                                        icon: Icon(Icons.volume_up,
+                                            color: Colors.white)),
+                                  ),
+                                  SizedBox(width: 2.w),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Text(
+                                              "🇹🇷 ",
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 14.sp),
+                                            ),
+                                            Text(
+                                              words.turkish ?? "",
+                                              style: TextStyle(fontSize: 14.sp),
+                                            ),
+                                          ],
+                                        ),
+                                        Divider(),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              "🇬🇧 ",
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 14.sp),
+                                            ),
+                                            Text(
+                                              words.english ?? "",
+                                              style: TextStyle(fontSize: 14.sp),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  IconButton(
+                                      icon: isFavorite == true
+                                          ? Icon(
+                                              Icons.favorite,
+                                              size: 18,
+                                            )
+                                          : Icon(
+                                              Icons.favorite_border_outlined,
+                                              size: 18,
+                                            ),
+                                      color: Colors.red,
+                                      onPressed: () async {
+                                        setState(() {
+                                          isFavorite = !isFavorite;
+                                          if (isFavorite == false) {
+                                            favoriteWordsList.removeAt(index);
+                                          }
+                                        });
+                                      })
+                                ]))));
+                  })
+            ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 }
