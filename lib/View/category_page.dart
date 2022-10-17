@@ -242,8 +242,10 @@ class _CategoryPageState extends State<CategoryPage> {
                           height: 40.h,
                           child: IconButton(
                               onPressed: () {
-                                speechService
-                                    .speak(snapshot.data[index].english ?? "");
+                                setState(() {
+                                  speechService
+                                      .speak(snapshot.data[index].english!);
+                                });
                               },
                               icon: Icon(Icons.volume_up, color: Colors.white)),
                         ),

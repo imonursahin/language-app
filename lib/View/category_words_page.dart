@@ -97,7 +97,11 @@ class _CategoryWordsPageState extends State<CategoryWordsPage> {
                           width: 20.w,
                           height: 40.h,
                           child: IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                setState(() {
+                                  speechService.speak(words.english!);
+                                });
+                              },
                               icon: Icon(Icons.volume_up, color: Colors.white)),
                         ),
                         SizedBox(width: 2.w),
@@ -184,7 +188,9 @@ class _CategoryWordsPageState extends State<CategoryWordsPage> {
                               height: 40.h,
                               child: IconButton(
                                   onPressed: () {
-                                    speechService.speak(words.english ?? "");
+                                    setState(() {
+                                      speechService.speak(words.english!);
+                                    });
                                   },
                                   icon: Icon(Icons.volume_up,
                                       color: Colors.white)),

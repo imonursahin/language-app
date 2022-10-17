@@ -19,7 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
         appBar: AppBar(
           title: RichText(
               text: TextSpan(
-                  text: "🥧 wordS",
+                  text: "wordS",
                   style: TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.w600,
@@ -61,21 +61,25 @@ class _HomeScreenState extends State<HomeScreen> {
                           fontWeight: FontWeight.w200,
                           fontSize: 18.sp),
                     ),
-                    Text("İngilizce Dil Öğrenme",
+                    Text("İngilizce Kelime Öğrenme",
                         style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.w600,
                             fontSize: 20.sp)),
-                    SizedBox(height: 1.h),
+                    SizedBox(height: 2.h),
                     SizedBox(
-                        width: 300.w,
+                        width: 250.w,
                         child: Image.asset('assets/images/homepic3.png')),
-                    SizedBox(height: 4.h),
-                    Text("Herkes için ingilizce öğrenmenin \nen kolay yolu ",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w200,
-                            fontSize: 16.sp)),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Image.asset(
+                          'assets/images/app-icon.png',
+                          width: 15.w,
+                          height: 15.w,
+                        ),
+                      ],
+                    ),
                     SizedBox(height: 4.h),
                     InkWell(
                       onTap: () {

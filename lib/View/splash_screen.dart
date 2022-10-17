@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 
 import 'home_screen.dart';
 
@@ -29,11 +30,34 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-      backgroundColor: Colors.orange,
+      backgroundColor: Colors.black,
       body: Center(
-        child: Text(
-          'wordStart',
-          style: TextStyle(color: Colors.white),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              'assets/images/app-icon.png',
+              width: 15.w,
+              height: 15.w,
+            ),
+            SizedBox(
+              height: 2.h,
+            ),
+            Text(
+              'wordStart',
+              style: TextStyle(
+                  color: Colors.orange,
+                  fontWeight: FontWeight.w200,
+                  fontSize: 30.sp),
+            ),
+            SizedBox(
+              height: 4.h,
+            ),
+            CircularProgressIndicator(
+              color: Colors.white,
+              strokeWidth: 1,
+            )
+          ],
         ),
       ),
     ));
