@@ -21,7 +21,7 @@ Future<dynamic> buildAlertInfo(BuildContext context) {
                 fontWeight: FontWeight.w500),
           ),
           content: Text(
-            "\n wordStart içerisinde binlerce kelime bulunduran ücretsiz bir ingilizce kelime öğrenme uygulamasıdır.\n\n\n❤️ Favorilere ekleme.\n\n📶 İnternetsiz kullanım.\n\n📣 Sürekli güncellenen kelime haznesi.\n\n\n 👋 Not: Sesleri dinlemek için Speech Services by Google uygulamasını indirmeniz gerekmektedir!\n\n\n 📩  wordstart@gmail.com ",
+            "\n wordStart içerisinde binlerce kelime bulunduran ücretsiz bir ingilizce kelime öğrenme uygulamasıdır.\n\n\n❤️ Favorilere ekleme.\n\n📶 İnternetsiz kullanım.\n\n📣 Sürekli güncellenen kelime haznesi.\n\n\n 📢 Sesleri dinlemek için Speech Services by Google uygulamasını indirmeniz gerekmektedir!\n\n\n 📩  wordstart@gmail.com ",
             style: TextStyle(
                 color: Colors.black,
                 fontSize: 14.sp,

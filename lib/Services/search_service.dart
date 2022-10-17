@@ -6,12 +6,12 @@ class SearchService {
     var db = await DbHelper.dbInstance();
 
     List<Map<String, dynamic>> maps = await db.rawQuery(
-        "SELECT * FROM kelimeler WHERE ingilizce like '%$searchWord%'");
+        // search turkish or english word
+        "SELECT * FROM words WHERE turkish LIKE '%$searchWord%' OR english LIKE '%$searchWord%'");
 
     return List.generate(maps.length, (i) {
       var row = maps[i];
-      return WordsModel(
-          row[""], row["turkish"], row["english"], row[""], row[""]);
+      return WordsModel(row[""], row["turkish"], row["english"], row[""]);
     });
   }
 }

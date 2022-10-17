@@ -14,7 +14,7 @@ class CategoryWordsService {
       int categoryID = int.parse(row["categoryId"].toString());
 
       var word = WordsModel(row["wordsId"], row["turkish"], row["english"],
-          row["pronunciation"], CategoryModel(categoryID, row["categoryName"]));
+          CategoryModel(categoryID, row["categoryName"]));
 
       return word;
     });
