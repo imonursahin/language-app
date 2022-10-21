@@ -46,7 +46,7 @@ class _SplashScreenState extends State<SplashScreen> {
             Text(
               'wordStart',
               style: TextStyle(
-                  color: Colors.orange,
+                  color: Colors.white,
                   fontWeight: FontWeight.w200,
                   fontSize: 30.sp),
             ),

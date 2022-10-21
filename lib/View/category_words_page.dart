@@ -1,7 +1,10 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:wordstart/Model/category_model.dart';
 import 'package:wordstart/Model/words_model.dart';
+import 'package:wordstart/Services/mail_service.dart';
 import '../VİewModel/category_words_viewmodel.dart';
 
 class CategoryWordsPage extends StatefulWidget {
@@ -20,6 +23,20 @@ class _CategoryWordsPageState extends State<CategoryWordsPage> {
 
   // Speech
   Speech speechService = Speech();
+
+  // Mail
+  MailService? _mailService;
+  String reportMail = 'wordstart.app@gmail.com';
+  String reportTurkish = '';
+  String reportEnglish = '';
+  String reportCategory = '';
+  TextEditingController reportController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _mailService = MailService();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +61,7 @@ class _CategoryWordsPageState extends State<CategoryWordsPage> {
                   Tab(
                     child: Align(
                       alignment: Alignment.center,
-                      child: Text("📋 Tüm Kelimeler"),
+                      child: Text("📋 Kelimeler"),
                     ),
                   ),
                   Tab(
@@ -67,11 +84,20 @@ class _CategoryWordsPageState extends State<CategoryWordsPage> {
         _buildWordsList(),
         // FAVORİTE PAGE
         favoritedWordsList.isEmpty
-            ? Center(
-                child: Text(
-                  'Henüz öğrendiğiniz kelime yok. 😢',
-                  style: TextStyle(color: Colors.black),
-                ),
+            ? Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Henüz öğrendiğiniz kelime yok. 😢',
+                    style: TextStyle(color: Colors.black),
+                  ),
+                  Divider(),
+                  Text(
+                    'Öğrendiğiniz tüm kelimeleri favorilere ekleyebilirsiniz.',
+                    style: TextStyle(
+                        color: Colors.black, fontWeight: FontWeight.w300),
+                  ),
+                ],
               )
             : _buildFavoriteWordList()
       ],
@@ -89,7 +115,7 @@ class _CategoryWordsPageState extends State<CategoryWordsPage> {
               child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: Container(
-                      height: 12.h,
+                      height: 14.h,
                       color: Colors.blueGrey[50],
                       child: Row(children: <Widget>[
                         Container(
@@ -98,9 +124,7 @@ class _CategoryWordsPageState extends State<CategoryWordsPage> {
                           height: 40.h,
                           child: IconButton(
                               onPressed: () {
-                                setState(() {
-                                  speechService.speak(words.english!);
-                                });
+                                speechService.speak(words.english!);
                               },
                               icon: Icon(Icons.volume_up, color: Colors.white)),
                         ),
@@ -113,14 +137,17 @@ class _CategoryWordsPageState extends State<CategoryWordsPage> {
                               Row(
                                 children: [
                                   Text(
-                                    "🇹🇷 ",
+                                    "🇬🇧 ",
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 14.sp),
                                   ),
-                                  Text(
-                                    words.turkish ?? "",
-                                    style: TextStyle(fontSize: 14.sp),
+                                  Expanded(
+                                    child: Text(
+                                      words.english ?? "",
+                                      maxLines: 2,
+                                      style: TextStyle(fontSize: 10.sp),
+                                    ),
                                   ),
                                 ],
                               ),
@@ -128,14 +155,17 @@ class _CategoryWordsPageState extends State<CategoryWordsPage> {
                               Row(
                                 children: [
                                   Text(
-                                    "🇬🇧 ",
+                                    "🇹🇷 ",
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 14.sp),
                                   ),
-                                  Text(
-                                    words.english ?? "",
-                                    style: TextStyle(fontSize: 14.sp),
+                                  Expanded(
+                                    child: Text(
+                                      words.turkish ?? "",
+                                      maxLines: 2,
+                                      style: TextStyle(fontSize: 10.sp),
+                                    ),
                                   ),
                                 ],
                               ),
@@ -178,7 +208,7 @@ class _CategoryWordsPageState extends State<CategoryWordsPage> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(10),
                       child: Container(
-                        height: 12.h,
+                        height: 14.h,
                         color: Colors.blueGrey[50],
                         child: Row(
                           children: <Widget>[
@@ -188,9 +218,7 @@ class _CategoryWordsPageState extends State<CategoryWordsPage> {
                               height: 40.h,
                               child: IconButton(
                                   onPressed: () {
-                                    setState(() {
-                                      speechService.speak(words.english!);
-                                    });
+                                    speechService.speak(words.english!);
                                   },
                                   icon: Icon(Icons.volume_up,
                                       color: Colors.white)),
@@ -204,14 +232,17 @@ class _CategoryWordsPageState extends State<CategoryWordsPage> {
                                   Row(
                                     children: [
                                       Text(
-                                        "🇹🇷 ",
+                                        "🇬🇧 ",
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 14.sp),
                                       ),
-                                      Text(
-                                        words.turkish ?? "",
-                                        style: TextStyle(fontSize: 14.sp),
+                                      Expanded(
+                                        child: Text(
+                                          words.english ?? "",
+                                          maxLines: 2,
+                                          style: TextStyle(fontSize: 10.sp),
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -219,41 +250,64 @@ class _CategoryWordsPageState extends State<CategoryWordsPage> {
                                   Row(
                                     children: [
                                       Text(
-                                        "🇬🇧 ",
+                                        "🇹🇷 ",
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 14.sp),
                                       ),
-                                      Text(
-                                        words.english ?? "",
-                                        style: TextStyle(fontSize: 14.sp),
+                                      Expanded(
+                                        child: Text(
+                                          words.turkish ?? "",
+                                          maxLines: 2,
+                                          style: TextStyle(fontSize: 10.sp),
+                                        ),
                                       ),
                                     ],
                                   ),
                                 ],
                               ),
                             ),
-                            IconButton(
-                                icon: isFavorite == true
-                                    ? Icon(
-                                        Icons.favorite,
-                                        size: 18,
-                                      )
-                                    : Icon(
-                                        Icons.favorite_border_outlined,
-                                        size: 18,
-                                      ),
-                                color: Colors.red,
-                                onPressed: () {
-                                  setState(() {
-                                    if (isFavorite == false) {
-                                      isFavorite = true;
-                                      favoritedWordsList.add(wordsList[index]);
+                            Row(
+                              children: [
+                                Tooltip(
+                                  message: "Öğrendim",
+                                  child: IconButton(
+                                      icon: isFavorite == true
+                                          ? Icon(
+                                              Icons.favorite,
+                                              size: 18,
+                                            )
+                                          : Icon(
+                                              Icons.favorite_border_outlined,
+                                              size: 18,
+                                            ),
+                                      color: Colors.red,
+                                      onPressed: () {
+                                        setState(() {
+                                          if (isFavorite == false) {
+                                            isFavorite = true;
+                                            favoritedWordsList
+                                                .add(wordsList[index]);
 
-                                      wordsList.remove(wordsList[index]);
-                                    }
-                                  });
-                                })
+                                            wordsList.remove(wordsList[index]);
+                                          }
+                                        });
+                                      }),
+                                ),
+                                Tooltip(
+                                  message: "Hata Bildir",
+                                  child: IconButton(
+                                      onPressed: () {
+                                        _buildReportAlertBox(context, words);
+                                      },
+                                      icon: Icon(
+                                        Icons.report_problem,
+                                        color: Colors.black,
+                                        size: 18,
+                                      )),
+                                ),
+                              ],
+                            )
                           ],
                         ),
                       ),
@@ -263,6 +317,78 @@ class _CategoryWordsPageState extends State<CategoryWordsPage> {
           } else {
             return Center(child: CircularProgressIndicator());
           }
+        });
+  }
+
+  Future<dynamic> _buildReportAlertBox(BuildContext context, WordsModel words) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+              child: AlertDialog(
+                title: Text("Hata Bildir !"),
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text("${words.english} \n${words.turkish} \n\n" +
+                        "Bu kelimeyi hatalı olarak bildirmek istediğinize emin misiniz?"),
+                    SizedBox(height: 2.h),
+                    TextField(
+                      controller: reportController,
+                      cursorColor: Colors.black,
+                      decoration: InputDecoration(
+                        hintText: "Hata Açıklaması (isteğe bağlı)",
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 3,
+                            color: Colors.black,
+                          ),
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            width: 3,
+                            color: Colors.black,
+                          ),
+                        ),
+                        border: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(width: 3, color: Colors.greenAccent),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                actions: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                        reportController.clear();
+                      },
+                      child: Text(
+                        "Hayır",
+                        style: TextStyle(color: Colors.black),
+                      )),
+                  TextButton(
+                      onPressed: () {
+                        reportTurkish = words.turkish.toString();
+                        reportEnglish = words.english.toString();
+                        reportCategory =
+                            widget.category.categoryName.toString();
+                        String reportMessage = reportController.text.toString();
+
+                        _mailService!.sendMail(reportMail, reportTurkish,
+                            reportEnglish, reportCategory, reportMessage);
+
+                        reportController.clear();
+                      },
+                      child: Text(
+                        "Evet",
+                        style: TextStyle(color: Colors.black),
+                      )),
+                ],
+              ));
         });
   }
 }

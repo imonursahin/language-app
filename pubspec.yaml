@@ -44,6 +44,8 @@ dependencies:
   share_plus: ^4.4.0
   flutter_svg: ^1.1.5
   flutter_launcher_icons:
+  mailer: 
+
 
 flutter_icons:
   android: true

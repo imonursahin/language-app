@@ -179,7 +179,7 @@ class _CategoryPageState extends State<CategoryPage> {
                                       child: Text(
                                         '${index + 1}',
                                         style: TextStyle(
-                                            fontSize: 18.sp,
+                                            fontSize: 14.sp,
                                             fontWeight: FontWeight.bold,
                                             color: Colors.white),
                                       ),
@@ -232,7 +232,7 @@ class _CategoryPageState extends State<CategoryPage> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: Container(
-                    height: 12.h,
+                    height: 14.h,
                     color: Colors.blueGrey[50],
                     child: Row(
                       children: <Widget>[
@@ -258,14 +258,17 @@ class _CategoryPageState extends State<CategoryPage> {
                               Row(
                                 children: [
                                   Text(
-                                    "🇹🇷 ",
+                                    "🇬🇧 ",
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 14.sp),
                                   ),
-                                  Text(
-                                    snapshot.data[index].turkish,
-                                    style: TextStyle(fontSize: 14.sp),
+                                  Expanded(
+                                    child: Text(
+                                      snapshot.data[index].english ?? "",
+                                      maxLines: 2,
+                                      style: TextStyle(fontSize: 10.sp),
+                                    ),
                                   ),
                                 ],
                               ),
@@ -273,14 +276,17 @@ class _CategoryPageState extends State<CategoryPage> {
                               Row(
                                 children: [
                                   Text(
-                                    "🇬🇧 ",
+                                    "🇹🇷 ",
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 14.sp),
                                   ),
-                                  Text(
-                                    snapshot.data[index].english,
-                                    style: TextStyle(fontSize: 14.sp),
+                                  Expanded(
+                                    child: Text(
+                                      snapshot.data[index].turkish ?? "",
+                                      maxLines: 2,
+                                      style: TextStyle(fontSize: 10.sp),
+                                    ),
                                   ),
                                 ],
                               ),

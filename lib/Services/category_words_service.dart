@@ -7,7 +7,7 @@ class CategoryWordsService {
     var db = await DbHelper.dbInstance();
 
     List<Map<String, dynamic>> maps = await db.rawQuery(
-        "SELECT * FROM words WHERE categoryId = $categoryId ORDER BY turkish ASC");
+        "SELECT * FROM words WHERE categoryId = $categoryId ORDER BY english ASC");
 
     return List.generate(maps.length, (i) {
       var row = maps[i];
