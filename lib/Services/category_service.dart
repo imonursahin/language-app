@@ -14,4 +14,14 @@ class CategoryService {
       return CategoryModel(row["categoryId"], row["categoryName"]);
     });
   }
+
+  // finds the number of category
+  Future<int> getNumberOfCategory(int categoryId) async {
+    var db = await DbHelper.dbInstance();
+
+    List<Map<String, dynamic>> maps = await db
+        .rawQuery("SELECT COUNT(*) FROM words where categoryId = $categoryId");
+
+    return maps[0]["COUNT(*)"];
+  }
 }

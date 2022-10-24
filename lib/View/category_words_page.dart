@@ -1,6 +1,6 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 import 'package:wordstart/Model/category_model.dart';
 import 'package:wordstart/Model/words_model.dart';
@@ -19,7 +19,7 @@ class CategoryWordsPage extends StatefulWidget {
 class _CategoryWordsPageState extends State<CategoryWordsPage> {
   // Favorite
   List<WordsModel> favoritedWordsList = [];
-  bool isFavorite = false;
+  List<bool> isFavorite = [false];
 
   // Speech
   Speech speechService = Speech();
@@ -86,7 +86,7 @@ class _CategoryWordsPageState extends State<CategoryWordsPage> {
         favoritedWordsList.isEmpty
             ? Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
+                children: const [
                   Text(
                     'Henüz öğrendiğiniz kelime yok. 😢',
                     style: TextStyle(color: Colors.black),
@@ -111,7 +111,7 @@ class _CategoryWordsPageState extends State<CategoryWordsPage> {
         itemBuilder: (BuildContext context, int index) {
           var words = favoritedWordsList[index];
           return Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(6.0),
               child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: Container(
@@ -173,20 +173,14 @@ class _CategoryWordsPageState extends State<CategoryWordsPage> {
                           ),
                         ),
                         IconButton(
-                            icon: isFavorite == true
-                                ? Icon(
-                                    Icons.favorite,
-                                    size: 18,
-                                  )
-                                : Icon(
-                                    Icons.favorite_border_outlined,
-                                    size: 18,
-                                  ),
-                            color: Colors.red,
-                            onPressed: () async {
+                            icon: Icon(isFavorite.elementAt(index)
+                                ? Icons.favorite
+                                : Icons.favorite_border),
+                            color:
+                                isFavorite.elementAt(index) ? Colors.red : null,
+                            onPressed: () {
                               setState(() {
-                                favoritedWordsList
-                                    .remove(favoritedWordsList[index]);
+                                favoritedWordsList.removeAt(index);
                               });
                             })
                       ]))));
@@ -203,8 +197,10 @@ class _CategoryWordsPageState extends State<CategoryWordsPage> {
                 itemCount: wordsList!.length,
                 itemBuilder: (context, index) {
                   var words = wordsList[index];
+                  isFavorite.add(false);
+
                   return Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.all(6.0),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(10),
                       child: Container(
@@ -272,24 +268,20 @@ class _CategoryWordsPageState extends State<CategoryWordsPage> {
                                 Tooltip(
                                   message: "Öğrendim",
                                   child: IconButton(
-                                      icon: isFavorite == true
-                                          ? Icon(
-                                              Icons.favorite,
-                                              size: 18,
-                                            )
-                                          : Icon(
-                                              Icons.favorite_border_outlined,
-                                              size: 18,
-                                            ),
-                                      color: Colors.red,
+                                      icon: Icon(isFavorite.elementAt(index)
+                                          ? Icons.favorite
+                                          : Icons.favorite_border),
+                                      color: isFavorite.elementAt(index)
+                                          ? Colors.red
+                                          : null,
                                       onPressed: () {
                                         setState(() {
-                                          if (isFavorite == false) {
-                                            isFavorite = true;
-                                            favoritedWordsList
-                                                .add(wordsList[index]);
-
-                                            wordsList.remove(wordsList[index]);
+                                          isFavorite[index] =
+                                              !isFavorite.elementAt(index);
+                                          if (isFavorite.elementAt(index)) {
+                                            favoritedWordsList.add(words);
+                                          } else {
+                                            favoritedWordsList.remove(words);
                                           }
                                         });
                                       }),
@@ -331,7 +323,7 @@ class _CategoryWordsPageState extends State<CategoryWordsPage> {
                 content: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text("${words.english} \n${words.turkish} \n\n" +
+                    Text("${words.english} \n${words.turkish} \n\n"
                         "Bu kelimeyi hatalı olarak bildirmek istediğinize emin misiniz?"),
                     SizedBox(height: 2.h),
                     TextField(
@@ -382,6 +374,15 @@ class _CategoryWordsPageState extends State<CategoryWordsPage> {
                             reportEnglish, reportCategory, reportMessage);
 
                         reportController.clear();
+
+                        Navigator.pop(context);
+
+                        // snackBar
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text("Hata bildirildi. Teşekkürler."),
+                          duration: Duration(seconds: 2),
+                          backgroundColor: Colors.black,
+                        ));
                       },
                       child: Text(
                         "Evet",

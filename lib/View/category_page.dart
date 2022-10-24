@@ -197,13 +197,28 @@ class _CategoryPageState extends State<CategoryPage> {
                                           category.categoryName.toString(),
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold,
-                                              fontSize: 14.sp),
+                                              fontSize: 15.sp),
                                         ),
-                                        // number of items in the category
-                                        Text("2500 kelime",
-                                            style: TextStyle(
-                                                color: Colors.grey,
-                                                fontSize: 12.sp))
+                                        FutureBuilder(
+                                            future:
+                                                getNumberOfCategory(index + 1),
+                                            builder: (context, snapshot) {
+                                              if (snapshot.hasData) {
+                                                var numberOfCategory =
+                                                    snapshot.data;
+                                                return Text(
+                                                  "$numberOfCategory Kelime",
+                                                  style: TextStyle(
+                                                      color: Colors.black87,
+                                                      fontSize: 12.sp,
+                                                      fontWeight:
+                                                          FontWeight.w300),
+                                                );
+                                              } else {
+                                                return Text(
+                                                    "Henüz kelime eklenmedi.");
+                                              }
+                                            }),
                                       ],
                                     ),
                                   ),
@@ -228,7 +243,7 @@ class _CategoryPageState extends State<CategoryPage> {
             itemCount: snapshot.data.length,
             itemBuilder: (context, index) {
               return Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(6.0),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: Container(

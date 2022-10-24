@@ -12,3 +12,9 @@ Future<List<WordsModel>> search(String searchWord) async {
   var result = await SearchService().search(searchWord);
   return result;
 }
+
+Future<int> getNumberOfCategory(int categoryId) async {
+  var numberOfCategory =
+      await CategoryService().getNumberOfCategory(categoryId);
+  return numberOfCategory;
+}
