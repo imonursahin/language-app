@@ -1,10 +1,27 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:wordstart/Model/words_model.dart';
 import 'package:wordstart/Services/category_words_service.dart';
 
-Future<List<WordsModel>> showWords(int categoryId) async {
-  var wordsList = await CategoryWordsService().getCategoryWords(categoryId);
-  return wordsList;
+import '../Services/mail_service.dart';
+
+class CategoryWordsViewModel {
+  Future<List<WordsModel>> showWords(int categoryId) async {
+    var wordsList = await CategoryWordsService().getCategoryWords(categoryId);
+    return wordsList;
+  }
+
+  // Mail
+  MailService? mailService;
+
+  String reportMail = 'wordstart.app@gmail.com';
+  String reportTurkish = '';
+  String reportEnglish = '';
+  String reportCategory = '';
+  TextEditingController reportController = TextEditingController();
+
+  // Speech
+  Speech speechService = Speech();
 }
 
 class Speech {

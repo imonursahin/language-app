@@ -1,6 +1,5 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 import 'package:wordstart/Model/category_model.dart';
 import 'package:wordstart/Model/words_model.dart';
@@ -21,21 +20,10 @@ class _CategoryWordsPageState extends State<CategoryWordsPage> {
   List<WordsModel> favoritedWordsList = [];
   List<bool> isFavorite = [false];
 
-  // Speech
-  Speech speechService = Speech();
-
-  // Mail
-  MailService? _mailService;
-  String reportMail = 'wordstart.app@gmail.com';
-  String reportTurkish = '';
-  String reportEnglish = '';
-  String reportCategory = '';
-  TextEditingController reportController = TextEditingController();
-
   @override
   void initState() {
     super.initState();
-    _mailService = MailService();
+    CategoryWordsViewModel().mailService = MailService();
   }
 
   @override
@@ -124,7 +112,9 @@ class _CategoryWordsPageState extends State<CategoryWordsPage> {
                           height: 40.h,
                           child: IconButton(
                               onPressed: () {
-                                speechService.speak(words.english!);
+                                CategoryWordsViewModel()
+                                    .speechService
+                                    .speak(words.english!);
                               },
                               icon: Icon(Icons.volume_up, color: Colors.white)),
                         ),
@@ -189,7 +179,7 @@ class _CategoryWordsPageState extends State<CategoryWordsPage> {
 
   FutureBuilder<List<WordsModel>> _buildWordsList() {
     return FutureBuilder<List<WordsModel>>(
-        future: showWords(widget.category.categoryId!),
+        future: CategoryWordsViewModel().showWords(widget.category.categoryId!),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             var wordsList = snapshot.data;
@@ -214,7 +204,9 @@ class _CategoryWordsPageState extends State<CategoryWordsPage> {
                               height: 40.h,
                               child: IconButton(
                                   onPressed: () {
-                                    speechService.speak(words.english!);
+                                    CategoryWordsViewModel()
+                                        .speechService
+                                        .speak(words.english!);
                                   },
                                   icon: Icon(Icons.volume_up,
                                       color: Colors.white)),
@@ -327,7 +319,7 @@ class _CategoryWordsPageState extends State<CategoryWordsPage> {
                         "Bu kelimeyi hatalı olarak bildirmek istediğinize emin misiniz?"),
                     SizedBox(height: 2.h),
                     TextField(
-                      controller: reportController,
+                      controller: CategoryWordsViewModel().reportController,
                       cursorColor: Colors.black,
                       decoration: InputDecoration(
                         hintText: "Hata Açıklaması (isteğe bağlı)",
@@ -356,7 +348,7 @@ class _CategoryWordsPageState extends State<CategoryWordsPage> {
                   TextButton(
                       onPressed: () {
                         Navigator.pop(context);
-                        reportController.clear();
+                        CategoryWordsViewModel().reportController.clear();
                       },
                       child: Text(
                         "Hayır",
@@ -364,16 +356,25 @@ class _CategoryWordsPageState extends State<CategoryWordsPage> {
                       )),
                   TextButton(
                       onPressed: () {
-                        reportTurkish = words.turkish.toString();
-                        reportEnglish = words.english.toString();
-                        reportCategory =
+                        CategoryWordsViewModel().reportTurkish =
+                            words.turkish.toString();
+                        CategoryWordsViewModel().reportEnglish =
+                            words.english.toString();
+                        CategoryWordsViewModel().reportCategory =
                             widget.category.categoryName.toString();
-                        String reportMessage = reportController.text.toString();
+                        String reportMessage = CategoryWordsViewModel()
+                            .reportController
+                            .text
+                            .toString();
 
-                        _mailService!.sendMail(reportMail, reportTurkish,
-                            reportEnglish, reportCategory, reportMessage);
+                        CategoryWordsViewModel().mailService!.sendMail(
+                            CategoryWordsViewModel().reportMail,
+                            CategoryWordsViewModel().reportTurkish,
+                            CategoryWordsViewModel().reportEnglish,
+                            CategoryWordsViewModel().reportCategory,
+                            reportMessage);
 
-                        reportController.clear();
+                        CategoryWordsViewModel().reportController.clear();
 
                         Navigator.pop(context);
 

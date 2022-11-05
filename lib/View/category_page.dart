@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:wordstart/Model/category_model.dart';
 import '../VİewModel/category_page_viewmodel.dart';
-import '../VİewModel/category_words_viewmodel.dart';
 import 'category_words_page.dart';
 import 'dart:math' as math;
 import 'package:wordstart/Model/words_model.dart';
@@ -15,14 +14,6 @@ class CategoryPage extends StatefulWidget {
 }
 
 class _CategoryPageState extends State<CategoryPage> {
-  bool isSearching = false;
-  late String searchString;
-
-  TextEditingController searchController = TextEditingController();
-
-  // Speech
-  Speech speechService = Speech();
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -74,7 +65,7 @@ class _CategoryPageState extends State<CategoryPage> {
           ),
           SizedBox(height: 2.h),
           TextField(
-            controller: searchController,
+            controller: CategoryPageViewModel().searchController,
             cursorColor: Colors.blueGrey[50],
             decoration: InputDecoration(
               prefixIcon: Icon(
@@ -85,8 +76,8 @@ class _CategoryPageState extends State<CategoryPage> {
                 icon: const Icon(Icons.clear),
                 onPressed: () {
                   setState(() {
-                    searchController.clear();
-                    isSearching = false;
+                    CategoryPageViewModel().searchController.clear();
+                    CategoryPageViewModel().isSearching = false;
                   });
                 },
               ),
@@ -99,18 +90,19 @@ class _CategoryPageState extends State<CategoryPage> {
             ),
             onChanged: (searchResult) {
               setState(() {
-                searchString = searchResult;
-                if (searchString.isEmpty) {
-                  isSearching = false;
+                CategoryPageViewModel().searchString = searchResult;
+                if (CategoryPageViewModel().searchString.isEmpty) {
+                  CategoryPageViewModel().isSearching = false;
                 } else {
-                  isSearching = true;
-                  search(searchString);
+                  CategoryPageViewModel().isSearching = true;
+                  CategoryPageViewModel()
+                      .search(CategoryPageViewModel().searchString);
                 }
               });
             },
           ),
           SizedBox(height: 2.h),
-          isSearching
+          CategoryPageViewModel().isSearching
               ? Center(
                   child: Column(
                     children: [
@@ -140,7 +132,7 @@ class _CategoryPageState extends State<CategoryPage> {
 
   FutureBuilder<List<CategoryModel>> _buildCategoryList() {
     return FutureBuilder<List<CategoryModel>>(
-        future: showCategory(),
+        future: CategoryPageViewModel().showCategory(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             var categoryList = snapshot.data;
@@ -200,8 +192,8 @@ class _CategoryPageState extends State<CategoryPage> {
                                               fontSize: 15.sp),
                                         ),
                                         FutureBuilder(
-                                            future:
-                                                getNumberOfCategory(index + 1),
+                                            future: CategoryPageViewModel()
+                                                .getNumberOfCategory(index + 1),
                                             builder: (context, snapshot) {
                                               if (snapshot.hasData) {
                                                 var numberOfCategory =
@@ -234,7 +226,8 @@ class _CategoryPageState extends State<CategoryPage> {
 
   FutureBuilder<List<WordsModel>> _buildSearchList() {
     return FutureBuilder(
-      future: search(searchString),
+      future:
+          CategoryPageViewModel().search(CategoryPageViewModel().searchString),
       builder: (context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
           return ListView.builder(
@@ -258,7 +251,8 @@ class _CategoryPageState extends State<CategoryPage> {
                           child: IconButton(
                               onPressed: () {
                                 setState(() {
-                                  speechService
+                                  CategoryPageViewModel()
+                                      .speechService
                                       .speak(snapshot.data[index].english!);
                                 });
                               },
